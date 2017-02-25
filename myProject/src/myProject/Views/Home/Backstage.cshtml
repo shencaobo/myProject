@@ -1,0 +1,96 @@
+﻿@{
+    ViewData["Title"] = "后台管理";
+}
+<h3>@ViewData["Title"]</h3>
+<style type="text/css">
+    .tableStyleBorder {
+        margin: 0px auto;
+        margin-top: 30px;
+        border-collapse: collapse;
+        border: 1px solid Black;
+    }
+
+        .tableStyleBorder th, .tableStyleBorder td {
+            min-width: 80px;
+            text-align: center;
+            padding: 8px;
+            border: 1px solid Black;
+        }
+</style>
+
+<table class="tableStyleBorder">
+    <tr>
+        <th>姓名</th>
+        <th>账号</th>
+        <th>管理员</th>
+        <th>创建时间</th>
+        <th>操作</th>
+    </tr>
+    @if (0 < ViewBag.userCount)
+    {
+        @foreach (var item in ViewBag.userList)
+        {
+            <tr>
+                <td>@item.name</td>
+                <td>@item.loginid</td>
+                
+                @if (@item.isadmin == 0)
+                {
+                    <td>否</td>
+                }
+                else
+                {
+                    <td>是</td>
+                }
+                <td>@item.createtime</td>
+                @if (@item.isadmin==0)
+                {
+                    <td><a href="#" onclick="setAdmin('@item.id','@item.isadmin')">设置管理员</a></td>
+                }
+                else
+                {
+                    <td><a href="#" onclick="setAdmin('@item.id','@item.isadmin')">取消管理员</a></td>
+                }
+
+            </tr>
+        }
+    }
+    else
+    {
+        <tr>
+            <td colspan="4">没有数据</td>
+        </tr>
+    }
+</table>
+<script>
+    function setAdmin(id,isadmin)
+    {
+        var text;
+        if (isadmin == 1)
+        {
+            text = "确认取消管理员？";
+        }
+        else
+        {
+            text = "确认设置管理员？";
+        }
+        if (confirm(text)) {
+            $.ajax({
+                type: "POST",
+                url: "/home/setAdmin",
+                data: { "id": id },
+                success: function (data) {
+                    if (data.success == true)
+                        window.location.href = "/home/BackStage";
+                    else {
+                        alert(data.message);
+                    }
+
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                }
+            });
+        }
+        
+    }
+</script>

@@ -1,0 +1,58 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <link href="~/css/style.css?time=1" rel='stylesheet' type='text/css' />
+    @*<meta name="viewport" content="width=device-width, initial-scale=1">*@
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <script src="~/js/jquery.js"></script>
+    <script src="~/js/jquery.query.js"></script>
+</head>
+<body>
+    <div class="app-location">
+        <h2>Welcome to Cnblogs</h2>
+        <div class="line"><span></span></div>
+        <div class="location"><img src="~/images/location.png" class="img-responsive" alt="" /></div>
+        <form method="post" enctype="multipart/form-data">
+            <input type="text" id="account" class="text" value="">
+            <input type="password" id="password" value="">
+            <div class="button"><input type="button" id="SignIn" onclick="login()" value="Sign in"></div>
+            <div class="clear"></div>
+            <div class="new">
+                <h3><a href="#" onclick="Registered()">Registered </a></h3>
+                <h4><a href="#"></a></h4>
+                <div class="clear"></div>
+            </div>
+        </form>
+    </div>
+</body>
+</html>
+<script>
+    function login()
+    {
+        var account=document.getElementById("account").value;
+        var password = document.getElementById("password").value;
+        $("#SignIn").attr('disabled', true);
+        $.ajax({
+                type: "POST",
+                url: "/home/LoginAjax",
+                data: { "account": account, "password": password },
+                success: function (data) {
+                    if (data.success == true)
+                        window.location.href="/home/MyCenter";
+                    else
+                    {
+                        $("#SignIn").attr('disabled', false);
+                        alert(data.message);
+                    }
+                        
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                }
+            });
+    }
+
+    function Registered()
+    {
+        window.location.href = "/home/Registered";
+    }
+</script>

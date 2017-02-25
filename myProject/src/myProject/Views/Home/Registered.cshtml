@@ -1,0 +1,70 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <link href="~/css/style.css?time=1" rel='stylesheet' type='text/css' />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <script src="~/js/jquery.js"></script>
+    <script src="~/js/jquery.query.js"></script>
+</head>
+<body>
+    <div class="app-location">
+        <h2>Welcome to Cnblogs</h2>
+        <div class="line"><span></span></div>
+        <div class="location"><img src="~/images/location.png" class="img-responsive" alt="" /></div>
+        <form method="post"  enctype="multipart/form-data">
+            <input type="text" id="account" class="text" value="">
+            <input type="password" id="password" value="">
+            <input type="password" id="passwordagain" value="">
+            <div class="button"><input type="button" id="Register" onclick="Registered()" value="Registered"></div>
+            <div class="clear"></div>
+            <div class="new">
+                <h3><a href="#" onclick="Login()">Sign in </a></h3>
+                <h4><a href="#"></a></h4>
+                <div class="clear"></div>
+            </div>
+        </form>
+    </div>
+</body>
+</html>
+<script>
+    function Registered()
+    {
+        var account = document.getElementById("account").value;
+        var password = document.getElementById("password").value;
+        var passwordagain = document.getElementById("passwordagain").value;
+
+        $("#Register").attr('disabled', true);
+
+        if (password != passwordagain)
+        {
+            alert("两次输入密码不一致");
+            $("#Register").attr('disabled', false);
+            return;
+        }
+
+        $.ajax({
+            type: "POST",
+            url: "/home/RegisteredAjax",
+            data: { "account": account, "password": password },
+            success: function (data) {
+                if (data.success == true)
+                {
+                    alert(data.message);
+                    window.location.href = "/home/Login";
+                }
+                else
+                {
+                    $("#Register").attr('disabled', false);
+                    alert(data.message);
+                }
+                    
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+            }
+        });
+    }
+
+    function Login() {
+        window.location.href = "/home/Login";
+    }
+</script>

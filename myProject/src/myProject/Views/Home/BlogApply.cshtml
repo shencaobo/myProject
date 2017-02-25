@@ -1,0 +1,76 @@
+﻿<h3>Hello! @ViewData["Name"]</h3>
+
+<div>
+
+</div>
+
+<div style="margin-top: 30px;">
+    <from method="post">
+        <label>姓名：</label>
+        <input type="text" id="name" name="name" value="@ViewBag.Name" /><br/>
+        <label>职位：</label>
+        <input type="text" id="position" name="position" value="" /><br />
+        <label>申请理由：</label><br />
+        <textarea type="text" id="reason"  rows="2" cols="20" style="width:600px;height:150px;line-height:1.5;" name="reason" value="" ></textarea><br />
+        <input type="button" id="btnApply" onclick="blogapply()" value="Apply">
+    </from>
+</div>
+
+<script>
+    function blogapply()
+    {
+        $("#btnApply").attr('disabled', true);
+        if (!checkData())
+        {
+            $("#btnApply").attr('disabled', false);
+            return;
+        }
+            
+        var name = $("#name").val();
+        var position = $("#position").val();
+        var reason = $("#reason").val();
+  
+        $.ajax({
+            type: "POST",
+            url: "/home/BlogApplyAjax",
+            data: { "name": name, "position": position, "reason": reason },
+            success: function (data) {
+                $("#btnApply").attr('disabled', false);
+                if (data.success == true)
+                {
+                    alert(data.message);
+                    window.location.href = "/home/MyCenter";
+                    
+                }
+                else {
+                    alert(data.message);
+                    window.location.href = "/home/MyCenter";
+                }
+
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+            }
+        });
+
+    }
+    
+    function checkData() {
+        var name = $("#name").val();
+        if (name.length == 0) {
+            alert("名字不能为空！");
+            return false;
+        }
+        var position = $("#position").val();
+        if (position.length == 0) {
+            alert("职位不能为空！");
+            return false;
+
+        }
+        var reason = $("#reason").val();
+        if (reason.length == 0) {
+            alert("理由不能为空！");
+            return false;
+        }
+        return true;
+    }
+</script>
