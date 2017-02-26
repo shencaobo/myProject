@@ -33,6 +33,11 @@ namespace myProject.Controllers
                 Response.Redirect(Url.Action("Login", "Home"));
                 return Redirect(Url.Action("Login", "Home"));
             }
+            if (!IsAdmin())
+            {
+                Response.Redirect(Url.Action("Error", "Home"));
+                return Redirect(Url.Action("Error", "Home"));
+            }
 
             var id= HttpContext.Session.GetString("loginid");
             var userlist = from u in db.Users
