@@ -1,2 +1,2 @@
 # myProject
-csdnblog
+cnblog
