@@ -1,78 +1,98 @@
-﻿@{
-    ViewData["Title"] = "后台博客申请管理";
-}
-<h3>@ViewData["Title"]</h3>
-<style type="text/css">
-    .tableStyleBorder {
-        margin: 0px auto;
-        margin-top: 30px;
-        border-collapse: collapse;
-        border: 1px solid Black;
-    }
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>无标题页</title>
+    <link rel="stylesheet" type="text/css" href="~/css/Backstage.css" />
+</head>
+<body class="mian_bj">
+    <div class="mian_b">
+        <div class="mian_b1">
+            
+            <p class="mian_b1_sousuo">
+                后台博客申请管理
+            </p>
 
-        .tableStyleBorder th, .tableStyleBorder td {
-            min-width: 80px;
-            text-align: center;
-            padding: 8px;
-            border: 1px solid Black;
-        }
-</style>
+        </div>
 
-<table class="tableStyleBorder">
-    <tr>
-        <th>真实姓名</th>
-        <th>职位</th>
-        <th>申请理由</th>
-        <th>时间</th>
-        <th>操作理由</th>
-        <th>操作</th>
-    </tr>
-    @if (0 < ViewBag.blogapplycount)
-    {
-        @foreach (var item in ViewBag.blogapplylist)
-        {
+        <table width="100%" border="0" cellpadding="0" cellspacing="0" class="mian_b_bg">
             <tr>
-                <td>@item.apply_name</td>
-                <td>@item.apply_position</td>
+                <td width="60%" class="mian_b_bg_lm">
+                    申请列表
 
-                <td>@item.apply_reason</td>
-                <td>@item.apply_createtime</td>
-               
-                
-
-                @if (@item.state == 0)
-                {
-                    <td><input type="text" id="feedback" name="feedback" value="@item.feedback" /></td>
-                    <td>
-                        <a href="#" onclick="agreeOpen('@item.id','@item.apply_userid','1')">同意开通</a>
-                        |
-                        <a href="#" onclick="agreeOpen('@item.id','@item.apply_userid','2')">拒绝开通</a>
-                    </td>
-                }
-                else if (@item.state == 1)
-                {
-                    <td>@item.feedback</td>
-                    <td>已同意</td>
-                }
-                else
-                {
-                    <td>@item.feedback</td>
-                    <td>已拒绝</td>
-                }
+                </td>
+                <td width="25%" class="mian_b_bg_lm">
+                     操作理由
+                </td>
+                <td width="15%" class="mian_b_bg_lm">
+                    操作
+                </td>
             </tr>
-        }
-    }
-    else
-    {
-        <tr>
-            <td colspan="6">没有数据</td>
-        </tr>
-    }
-</table>
+        
+                @if (0 < ViewBag.blogapplycount)
+                {
+                    @foreach (var item in ViewBag.blogapplylist)
+                    {
+                        <tr>
+                            <td>
+                                <table width="100%" border="0" cellspacing="0" cellpadding="0" class="mian_b_lb">
+                                    <tr>
+                                        <td rowspan="3" width="98"></td>
+                                        <td width="100" valign="top">
+                                            姓名：@item.apply_name
+                                        </td>
+                                        <td width="aotu" valign="top">
+                                            职位：@item.apply_position
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td valign="top">
+                                            申请时间：
+                                        </td>
+                                        <td valign="top">
+                                           @item.apply_createtime
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td valign="top">
+                                            申请理由：
+                                        </td>
+                                        <td valign="top">
+                                            @item.apply_reason
+                                        </td>
+                                    </tr>
+                                </table>
+                            </td>
+                            @if (@item.state == 0)
+                            {
+                                <td><input type="text" id="feedback" name="feedback" value="@item.feedback" /></td>
+                                <td>
+                                    <a href="#" onclick="agreeOpen('@item.id','@item.apply_userid','1')">同意开通</a>
+                                    |
+                                    <a href="#" onclick="agreeOpen('@item.id','@item.apply_userid','2')">拒绝开通</a>
+                                </td>
+                            }
+                            else if (@item.state == 1)
+                            {
+                                <td>@item.feedback</td>
+                                <td>已同意</td>
+                            }
+                            else
+                            {
+                                <td>@item.feedback</td>
+                                <td>已拒绝</td>
+                            }
+                        </tr>
+                        
+                    }
+                }
+            </table>
+        </div>
+    </body>
+</html>
 <script>
     function agreeOpen(id, userid, state)
     {
-        
+
         var text="";
         var feedback = $("#feedback").val();
         if (state == "1")
@@ -80,13 +100,13 @@
         else
         {
             text = "拒绝用户开通博客？";
-            
+
             if (feedback == "") {
                 alert("拒绝理由不能为空。");
                 return;
             }
         }
-        
+
 
         if (confirm(text)) {
             $.ajax({
@@ -105,6 +125,8 @@
                 }
             });
         }
-        
+
     }
+
+   
 </script>

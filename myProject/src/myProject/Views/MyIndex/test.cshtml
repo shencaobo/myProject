@@ -1,0 +1,110 @@
+﻿@{
+    ViewData["Title"] = "后台博客申请管理";
+}
+<h3>@ViewData["Title"]</h3>
+<style type="text/css">
+    .tableStyleBorder {
+        margin: 0px auto;
+        margin-top: 30px;
+        border-collapse: collapse;
+        border: 1px solid Black;
+    }
+
+        .tableStyleBorder th, .tableStyleBorder td {
+            min-width: 80px;
+            text-align: center;
+            padding: 8px;
+            border: 1px solid Black;
+        }
+</style>
+
+<table class="tableStyleBorder">
+    <tr>
+        <th>真实姓名</th>
+        <th>职位</th>
+        <th>申请理由</th>
+        <th>时间</th>
+        <th>操作理由</th>
+        <th>操作</th>
+    </tr>
+    @if (0 < ViewBag.blogapplycount)
+    {
+        @foreach (var item in ViewBag.blogapplylist)
+        {
+            <tr>
+                <td>@item.apply_name</td>
+                <td>@item.apply_position</td>
+
+                <td>@item.apply_reason</td>
+                <td>@item.apply_createtime</td>
+               
+                
+
+                @if (@item.state == 0)
+                {
+                    <td><input type="text" id="feedback" name="feedback" value="@item.feedback" /></td>
+                    <td>
+                        <a href="#" onclick="agreeOpen('@item.id','@item.apply_userid','1')">同意开通</a>
+                        |
+                        <a href="#" onclick="agreeOpen('@item.id','@item.apply_userid','2')">拒绝开通</a>
+                    </td>
+                }
+                else if (@item.state == 1)
+                {
+                    <td>@item.feedback</td>
+                    <td>已同意</td>
+                }
+                else
+                {
+                    <td>@item.feedback</td>
+                    <td>已拒绝</td>
+                }
+            </tr>
+        }
+    }
+    else
+    {
+        <tr>
+            <td colspan="6">没有数据</td>
+        </tr>
+    }
+</table>
+<script>
+    function agreeOpen(id, userid, state)
+    {
+        
+        var text="";
+        var feedback = $("#feedback").val();
+        if (state == "1")
+            text = "确认用户开通博客？";
+        else
+        {
+            text = "拒绝用户开通博客？";
+            
+            if (feedback == "") {
+                alert("拒绝理由不能为空。");
+                return;
+            }
+        }
+        
+
+        if (confirm(text)) {
+            $.ajax({
+                type: "POST",
+                url: "/MyIndex/DealBlogApplyAjax",
+                data: { "id": id, "userid": userid, "state": state, "feedback": feedback },
+                success: function (data) {
+                    if (data.success == true)
+                        window.location.href = "/MyIndex/DealBlogApply";
+                    else {
+                        alert(data.message);
+                    }
+
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                }
+            });
+        }
+        
+    }
+</script>
