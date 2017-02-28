@@ -91,11 +91,11 @@
         if (confirm(text)) {
             $.ajax({
                 type: "POST",
-                url: "/home/DealBlogApplyAjax",
+                url: "/MyIndex/DealBlogApplyAjax",
                 data: { "id": id, "userid": userid, "state": state, "feedback": feedback },
                 success: function (data) {
                     if (data.success == true)
-                        window.location.href = "/home/DealBlogApply";
+                        window.location.href = "/MyIndex/DealBlogApply";
                     else {
                         alert(data.message);
                     }

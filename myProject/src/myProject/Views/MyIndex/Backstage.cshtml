@@ -77,11 +77,11 @@
         if (confirm(text)) {
             $.ajax({
                 type: "POST",
-                url: "/home/setAdmin",
+                url: "/MyIndex/setAdmin",
                 data: { "id": id },
                 success: function (data) {
                     if (data.success == true)
-                        window.location.href = "/home/BackStage";
+                        window.location.href = "/MyIndex/BackStage";
                     else {
                         alert(data.message);
                     }

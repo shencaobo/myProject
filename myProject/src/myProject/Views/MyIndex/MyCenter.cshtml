@@ -21,7 +21,7 @@
 </div>
 
 <div style="margin-top: 30px;">
-    @using (Html.BeginForm("MyCenter", "Home", FormMethod.Post))
+    @using (Html.BeginForm("MyCenter", "MyIndex", FormMethod.Post))
     {
         <label>姓名：</label>
         string _username = ViewBag.Name;
@@ -36,15 +36,15 @@
 <script>
     function Backstage()
     {
-        window.location.href = "/home/Backstage";
+        window.location.href = "/MyIndex/Backstage";
     }
 
     function BlogApply() {
-        window.location.href = "/home/BlogApply";
+        window.location.href = "/MyIndex/BlogApply";
     }
 
     function DealBlogApply() {
-        window.location.href = "/home/DealBlogApply";
+        window.location.href = "/MyIndex/DealBlogApply";
     }
 
     function MyBlog() {

@@ -32,19 +32,19 @@
   
         $.ajax({
             type: "POST",
-            url: "/home/BlogApplyAjax",
+            url: "/MyIndex/BlogApplyAjax",
             data: { "name": name, "position": position, "reason": reason },
             success: function (data) {
                 $("#btnApply").attr('disabled', false);
                 if (data.success == true)
                 {
                     alert(data.message);
-                    window.location.href = "/home/MyCenter";
+                    window.location.href = "/MyIndex/MyCenter";
                     
                 }
                 else {
                     alert(data.message);
-                    window.location.href = "/home/MyCenter";
+                    window.location.href = "/MyIndex/MyCenter";
                 }
 
             },
